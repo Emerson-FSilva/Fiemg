@@ -79,7 +79,7 @@ public static Connection conectar(){
                 desabilitarCampos();
 
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "Erro"+e);
+                JOptionPane.showMessageDialog(null, "Erro tente de novo"+e);
             }
         }
     }
