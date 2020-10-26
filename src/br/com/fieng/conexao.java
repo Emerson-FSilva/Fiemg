@@ -72,7 +72,7 @@ public static Connection conectar(){
                 pst.setString(1, txtClieId.getText());
                 int op = pst.executeUpdate();
                 if (op > 0) {
-                    JOptionPane.showMessageDialog(null, "Excluido com Sucesso!");
+                    JOptionPane.showMessageDialog(null, "Excluido com Sucesso uhuuu!");
                 }
 
                 desabilitarCampos();
