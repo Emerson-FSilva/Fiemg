@@ -36,7 +36,7 @@ public static Connection conectar(){
         try {
             if ((txtClieNome.getText().isEmpty()) || (txtClieEndereco.getText().isEmpty()) || (txtClieBairro.getText().isEmpty() || (txtClieCidade.getText().isEmpty()) || (txtClieCep.getText().isEmpty()) || (txtClieCpf.getText().isEmpty()) || (txtClieRg.getText().isEmpty()) || (txtClieEstadoCivil.getText().isEmpty()) || (txtClieDataNasc.getText().isEmpty()) || (txtClieCelular.getText().isEmpty()) ||
                     (txtClieEMail.getText().isEmpty()))) {
-                JOptionPane.showMessageDialog(null, "Favor Preencher Todos os Campos que estao vazios!!  );
+                JOptionPane.showMessageDialog(null, "Favor Preencher Todos os Campos que estao vazios por favor!!  );
             } else {
                 pst = con.prepareCall(sql);
                 pst.setString(1, txtClieNome.getText());
@@ -54,7 +54,7 @@ public static Connection conectar(){
                 pst.setString(13, txtClieId.getText());
                 int valida = pst.executeUpdate();
                 if (valida > 0) {
-                    JOptionPane.showMessageDialog(null, "Atualizado com Sucesso!");
+                    JOptionPane.showMessageDialog(null, "Atualizado com Sucesso!!!!!!!");
                 }
             }
 
