@@ -36,8 +36,7 @@ public static Connection conectar(){
         try {
             if ((txtClieNome.getText().isEmpty()) || (txtClieEndereco.getText().isEmpty()) || (txtClieBairro.getText().isEmpty() || (txtClieCidade.getText().isEmpty()) || (txtClieCep.getText().isEmpty()) || (txtClieCpf.getText().isEmpty()) || (txtClieRg.getText().isEmpty()) || (txtClieEstadoCivil.getText().isEmpty()) || (txtClieDataNasc.getText().isEmpty()) || (txtClieCelular.getText().isEmpty()) ||
                     (txtClieEMail.getText().isEmpty()))) {
-                JOptionPane.showMessageDialog(null, "Favor Preencher Todos os Campos!");
-
+                JOptionPane.showMessageDialog(null, "Favor Preencher Todos os Campos que estao vazios!!  );
             } else {
                 pst = con.prepareCall(sql);
                 pst.setString(1, txtClieNome.getText());
