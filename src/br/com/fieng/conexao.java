@@ -26,7 +26,7 @@ public static Connection conectar(){
         try {
             con.close();
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null,"Conexão Fechada" e);
+            JOptionPane.showMessageDialog(null,"Conexão Fechada"+ e);
         }
     }
     
