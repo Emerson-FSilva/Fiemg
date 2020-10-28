@@ -56,11 +56,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
         areaTrabalho.setLayout(areaTrabalhoLayout);
         areaTrabalhoLayout.setHorizontalGroup(
             areaTrabalhoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 535, Short.MAX_VALUE)
+            .addGap(0, 590, Short.MAX_VALUE)
         );
         areaTrabalhoLayout.setVerticalGroup(
             areaTrabalhoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 368, Short.MAX_VALUE)
+            .addGap(0, 392, Short.MAX_VALUE)
         );
 
         jMenu1.setText("Cadastro");
@@ -108,7 +108,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
             .addComponent(areaTrabalho)
         );
 
-        setSize(new java.awt.Dimension(551, 428));
+        setSize(new java.awt.Dimension(606, 454));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 

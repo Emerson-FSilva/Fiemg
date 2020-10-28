@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 public class CadAluno extends javax.swing.JInternalFrame {
 
@@ -45,6 +46,29 @@ public class CadAluno extends javax.swing.JInternalFrame {
         }
     }
 
+    private void consultar() {
+        DefaultTableModel dtm = (DefaultTableModel) TabelaAluno.getModel();
+        dtm.setRowCount(0);
+        String sql = "select * from aluno where nome like '%" + txtPesquisaAluno.getText() + "%'";
+        System.out.println(sql);
+        if (txtPesquisaAluno.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "coloque um filtro");
+        } else {
+            try {
+                pst = con.prepareStatement(sql);
+                rs = pst.executeQuery();
+
+                while (rs.next()) {
+                    dtm.addRow(new Object[]{rs.getObject(2), rs.getObject(3)});
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e);
+
+            }
+        }
+
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -60,6 +84,8 @@ public class CadAluno extends javax.swing.JInternalFrame {
         btnGravar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         TabelaAluno = new javax.swing.JTable();
+        btnPesuisa = new javax.swing.JButton();
+        txtPesquisaAluno = new javax.swing.JTextField();
 
         setTitle("Cadastro Aluno");
 
@@ -108,6 +134,8 @@ public class CadAluno extends javax.swing.JInternalFrame {
         });
         jScrollPane1.setViewportView(TabelaAluno);
 
+        btnPesuisa.setText("Pesquisa");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -115,6 +143,7 @@ public class CadAluno extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 588, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -131,9 +160,13 @@ public class CadAluno extends javax.swing.JInternalFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jrAlunoMasculino)
                                     .addComponent(jrAlunoFeminino)))
-                            .addComponent(btnGravar))
-                        .addContainerGap(296, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)))
+                            .addComponent(btnGravar)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnPesuisa)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtPesquisaAluno, javax.swing.GroupLayout.PREFERRED_SIZE, 398, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -155,9 +188,13 @@ public class CadAluno extends javax.swing.JInternalFrame {
                         .addComponent(jrAlunoFeminino)))
                 .addGap(18, 18, 18)
                 .addComponent(btnGravar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnPesuisa)
+                    .addComponent(txtPesquisaAluno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
@@ -168,7 +205,7 @@ public class CadAluno extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtCadAlunoIDActionPerformed
 
     private void btnGravarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGravarActionPerformed
-      inserir();
+        inserir();
     }//GEN-LAST:event_btnGravarActionPerformed
 
 
@@ -176,6 +213,7 @@ public class CadAluno extends javax.swing.JInternalFrame {
     private javax.swing.ButtonGroup GrupoSexo;
     private javax.swing.JTable TabelaAluno;
     private javax.swing.JButton btnGravar;
+    private javax.swing.JButton btnPesuisa;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -184,5 +222,6 @@ public class CadAluno extends javax.swing.JInternalFrame {
     private javax.swing.JRadioButton jrAlunoMasculino;
     private javax.swing.JTextField txtCadAlunoID;
     private javax.swing.JTextField txtCadAlunoNome;
+    private javax.swing.JTextField txtPesquisaAluno;
     // End of variables declaration//GEN-END:variables
 }
