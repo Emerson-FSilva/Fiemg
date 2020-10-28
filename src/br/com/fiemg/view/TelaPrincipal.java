@@ -35,6 +35,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         menItemCadUsu = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenu3 = new javax.swing.JMenu();
 
@@ -63,6 +64,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
         );
 
         jMenu1.setText("Cadastro");
+        jMenu1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenu1ActionPerformed(evt);
+            }
+        });
 
         menItemCadUsu.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.ALT_MASK));
         menItemCadUsu.setText("Cadastro de Usuario");
@@ -72,6 +78,14 @@ public class TelaPrincipal extends javax.swing.JFrame {
             }
         });
         jMenu1.add(menItemCadUsu);
+
+        jMenuItem2.setText("Cadastro Aluno");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem2);
 
         jMenuBar1.add(jMenu1);
 
@@ -98,11 +112,21 @@ public class TelaPrincipal extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jMenu1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu1ActionPerformed
+       
+    }//GEN-LAST:event_jMenu1ActionPerformed
+
     private void menItemCadUsuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menItemCadUsuActionPerformed
          CadastroUsuario cu = new CadastroUsuario();
-         cu.setVisible(true);
-         areaTrabalho.add(cu);
+        cu.setVisible(true);
+        areaTrabalho.add(cu);
     }//GEN-LAST:event_menItemCadUsuActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        CadAluno ca = new CadAluno();
+        ca.setVisible(true);
+        areaTrabalho.add(ca);
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -146,6 +170,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem menItemCadUsu;
     // End of variables declaration//GEN-END:variables
 }

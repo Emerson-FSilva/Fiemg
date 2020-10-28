@@ -130,7 +130,7 @@ public class CadastroUsuario extends javax.swing.JInternalFrame {
         jLabel5 = new javax.swing.JLabel();
         TxtUsuID = new javax.swing.JTextField();
 
-        setBackground(new java.awt.Color(141, 135, 237));
+        setBackground(new java.awt.Color(118, 118, 118));
         setClosable(true);
         setIconifiable(true);
         setMaximizable(true);
