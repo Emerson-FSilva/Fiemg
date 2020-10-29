@@ -4,6 +4,7 @@ import br.com.fieng.conexao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -46,6 +47,58 @@ public class CadAluno extends javax.swing.JInternalFrame {
         }
     }
 
+    private void avancar() {
+        try {
+            pst = con.prepareStatement("select * from aluno");
+            rs = pst.executeQuery();
+            rs.next();
+            System.out.println(rs.getString(2) + "" + rs.getString(3));
+            txtCadAlunoNome.setText(rs.getString(2));
+            if (rs.getString(3) == "Masculino") {
+             //   jrAlunoMasculino
+        
+            }
+        } catch (Exception e) {
+        }
+    }
+
+    private void AvancaPrimeiro() {
+        try {
+            pst = con.prepareStatement("select*from aluno", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            rs = pst.executeQuery();
+            rs.first();
+            System.out.println(rs.getString(2) + "" + rs.getString(3));
+            txtCadAlunoNome.setText(rs.getString(2));
+            if (rs.getString(3).equals("Masculino")) {
+                jrAlunoMasculino.setSelected(true);
+            } else {
+                jrAlunoFeminino.setSelected(true);
+
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+        }
+    }
+
+    private void AvancaUltimo() {
+        try {
+            pst = con.prepareStatement("select*from aluno", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            rs = pst.executeQuery();
+            rs.last();
+            System.out.println(rs.getString(2) + "" + rs.getString(3));
+            txtCadAlunoNome.setText(rs.getString(2));
+            if (rs.getString(3).equals("Masculino")) {
+                jrAlunoMasculino.setSelected(true);
+            } else {
+                jrAlunoFeminino.setSelected(true);
+
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+        }
+        
+    }
+
     private void consultar() {
         DefaultTableModel dtm = (DefaultTableModel) TabelaAluno.getModel();
         dtm.setRowCount(0);
@@ -59,7 +112,7 @@ public class CadAluno extends javax.swing.JInternalFrame {
                 rs = pst.executeQuery();
 
                 while (rs.next()) {
-                    dtm.addRow(new Object[]{rs.getObject(2), rs.getObject(3)});
+                    dtm.addRow(new Object[]{rs.getObject(1), rs.getObject(2), rs.getObject(3)});
                 }
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, e);
@@ -86,6 +139,10 @@ public class CadAluno extends javax.swing.JInternalFrame {
         TabelaAluno = new javax.swing.JTable();
         btnPesuisa = new javax.swing.JButton();
         txtPesquisaAluno = new javax.swing.JTextField();
+        btnPrimeiro = new javax.swing.JButton();
+        btnAnterior = new javax.swing.JButton();
+        btnProximo = new javax.swing.JButton();
+        btnUltimo = new javax.swing.JButton();
 
         setTitle("Cadastro Aluno");
 
@@ -135,6 +192,19 @@ public class CadAluno extends javax.swing.JInternalFrame {
         jScrollPane1.setViewportView(TabelaAluno);
 
         btnPesuisa.setText("Pesquisa");
+        btnPesuisa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPesuisaActionPerformed(evt);
+            }
+        });
+
+        btnPrimeiro.setText("<<");
+
+        btnAnterior.setText("<");
+
+        btnProximo.setText(">");
+
+        btnUltimo.setText(">>");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -147,24 +217,32 @@ public class CadAluno extends javax.swing.JInternalFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
+                                .addComponent(btnPesuisa)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtCadAlunoID, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtCadAlunoNome, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(txtPesquisaAluno, javax.swing.GroupLayout.PREFERRED_SIZE, 398, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jrAlunoMasculino)
-                                    .addComponent(jrAlunoFeminino)))
-                            .addComponent(btnGravar)
+                                    .addComponent(jrAlunoFeminino)
+                                    .addComponent(btnGravar)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(btnPrimeiro)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(btnAnterior)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(btnProximo)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(btnUltimo))))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnPesuisa)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel1))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtPesquisaAluno, javax.swing.GroupLayout.PREFERRED_SIZE, 398, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtCadAlunoID, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtCadAlunoNome, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -188,12 +266,18 @@ public class CadAluno extends javax.swing.JInternalFrame {
                         .addComponent(jrAlunoFeminino)))
                 .addGap(18, 18, 18)
                 .addComponent(btnGravar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnPrimeiro)
+                    .addComponent(btnAnterior)
+                    .addComponent(btnProximo)
+                    .addComponent(btnUltimo))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnPesuisa)
                     .addComponent(txtPesquisaAluno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -208,12 +292,20 @@ public class CadAluno extends javax.swing.JInternalFrame {
         inserir();
     }//GEN-LAST:event_btnGravarActionPerformed
 
+    private void btnPesuisaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesuisaActionPerformed
+        consultar();
+    }//GEN-LAST:event_btnPesuisaActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup GrupoSexo;
     private javax.swing.JTable TabelaAluno;
+    private javax.swing.JButton btnAnterior;
     private javax.swing.JButton btnGravar;
     private javax.swing.JButton btnPesuisa;
+    private javax.swing.JButton btnPrimeiro;
+    private javax.swing.JButton btnProximo;
+    private javax.swing.JButton btnUltimo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
