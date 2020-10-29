@@ -5,6 +5,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -12,11 +14,20 @@ public class CadAluno extends javax.swing.JInternalFrame {
 
     Connection con = null;
     PreparedStatement pst = null;
+    PreparedStatement pstRoll = null;
     ResultSet rs = null;
+    ResultSet rsRoll = null;
 
     public CadAluno() {
         initComponents();
         con = conexao.conectar();
+        try {
+            pstRoll = con.prepareStatement("select * from aluno", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            rsRoll = pstRoll.executeQuery();
+            rsRoll.first();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao consutar" + ex);
+        }
     }
 
     private void inserir() {
@@ -33,70 +44,10 @@ public class CadAluno extends javax.swing.JInternalFrame {
                     JOptionPane.showMessageDialog(null, "Inserido com sucesso");
                 }
 
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "Erro" + e);
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "Erro" + ex);
             }
         }
-    }
-
-    private String validaSexo() {
-        if (jrAlunoMasculino.isSelected()) {
-            return jrAlunoMasculino.getText();
-        } else {
-            return jrAlunoFeminino.getText();
-        }
-    }
-
-    private void avancar() {
-        try {
-            pst = con.prepareStatement("select * from aluno");
-            rs = pst.executeQuery();
-            rs.next();
-            System.out.println(rs.getString(2) + "" + rs.getString(3));
-            txtCadAlunoNome.setText(rs.getString(2));
-            if (rs.getString(3) == "Masculino") {
-             //   jrAlunoMasculino
-        
-            }
-        } catch (Exception e) {
-        }
-    }
-
-    private void AvancaPrimeiro() {
-        try {
-            pst = con.prepareStatement("select*from aluno", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-            rs = pst.executeQuery();
-            rs.first();
-            System.out.println(rs.getString(2) + "" + rs.getString(3));
-            txtCadAlunoNome.setText(rs.getString(2));
-            if (rs.getString(3).equals("Masculino")) {
-                jrAlunoMasculino.setSelected(true);
-            } else {
-                jrAlunoFeminino.setSelected(true);
-
-            }
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, ex);
-        }
-    }
-
-    private void AvancaUltimo() {
-        try {
-            pst = con.prepareStatement("select*from aluno", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-            rs = pst.executeQuery();
-            rs.last();
-            System.out.println(rs.getString(2) + "" + rs.getString(3));
-            txtCadAlunoNome.setText(rs.getString(2));
-            if (rs.getString(3).equals("Masculino")) {
-                jrAlunoMasculino.setSelected(true);
-            } else {
-                jrAlunoFeminino.setSelected(true);
-
-            }
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, ex);
-        }
-        
     }
 
     private void consultar() {
@@ -105,7 +56,7 @@ public class CadAluno extends javax.swing.JInternalFrame {
         String sql = "select * from aluno where nome like '%" + txtPesquisaAluno.getText() + "%'";
         System.out.println(sql);
         if (txtPesquisaAluno.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "coloque um filtro");
+            JOptionPane.showMessageDialog(null, "Coloque um filtro");
         } else {
             try {
                 pst = con.prepareStatement(sql);
@@ -118,6 +69,71 @@ public class CadAluno extends javax.swing.JInternalFrame {
                 JOptionPane.showMessageDialog(null, e);
 
             }
+        }
+
+    }
+
+    private String validaSexo() {
+        if (jrAlunoMasculino.isSelected()) {
+            return jrAlunoMasculino.getText();
+        } else {
+            return jrAlunoFeminino.getText();
+        }
+    }
+
+    private void Avancar() {
+        try {
+            rsRoll.next();
+            txtCadAlunoNome.setText(rs.getString(2));
+            if (rsRoll.getString(3).equals("Masculino")) {
+                jrAlunoMasculino.setSelected(true);
+            } else {
+                jrAlunoFeminino.setSelected(true);
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+        }
+    }
+
+    private void Anterior() {
+        try {
+            rsRoll.previous();
+            txtCadAlunoNome.setText(rsRoll.getString(2));
+            if (rsRoll.getString(3).equals("Masculino")) {
+                jrAlunoMasculino.setSelected(true);
+            } else {
+                jrAlunoFeminino.setSelected(true);
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+        }
+    }
+
+    private void AvancaPrimeiro() {
+        try {
+            rsRoll.first();
+            txtCadAlunoNome.setText(rsRoll.getString(2));
+            if (rsRoll.getString(3).equals("Masculino")) {
+                jrAlunoMasculino.setSelected(true);
+            } else {
+                jrAlunoFeminino.setSelected(true);
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+        }
+    }
+
+    private void AvancaUltimo() {
+        try {
+            rsRoll.last();
+            txtCadAlunoNome.setText(rsRoll.getString(2));
+            if (rsRoll.getString(3).equals("Masculino")) {
+                jrAlunoMasculino.setSelected(true);
+            } else {
+                jrAlunoFeminino.setSelected(true);
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex);
         }
 
     }
@@ -199,12 +215,32 @@ public class CadAluno extends javax.swing.JInternalFrame {
         });
 
         btnPrimeiro.setText("<<");
+        btnPrimeiro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPrimeiroActionPerformed(evt);
+            }
+        });
 
         btnAnterior.setText("<");
+        btnAnterior.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAnteriorActionPerformed(evt);
+            }
+        });
 
         btnProximo.setText(">");
+        btnProximo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnProximoActionPerformed(evt);
+            }
+        });
 
         btnUltimo.setText(">>");
+        btnUltimo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUltimoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -295,6 +331,25 @@ public class CadAluno extends javax.swing.JInternalFrame {
     private void btnPesuisaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesuisaActionPerformed
         consultar();
     }//GEN-LAST:event_btnPesuisaActionPerformed
+
+    private void btnProximoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProximoActionPerformed
+        Avancar();
+    }//GEN-LAST:event_btnProximoActionPerformed
+
+    private void btnAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnteriorActionPerformed
+
+        Anterior();
+    }//GEN-LAST:event_btnAnteriorActionPerformed
+
+    private void btnPrimeiroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrimeiroActionPerformed
+
+        AvancaPrimeiro();
+    }//GEN-LAST:event_btnPrimeiroActionPerformed
+
+    private void btnUltimoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUltimoActionPerformed
+
+        AvancaUltimo();
+    }//GEN-LAST:event_btnUltimoActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
